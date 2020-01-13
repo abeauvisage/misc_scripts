@@ -8,6 +8,7 @@ call plug#begin('~/.vim/plugged')
 
 	" autocompletion and indentation
 	Plug 'ycm-core/YouCompleteMe'
+	Plug 'wesleyche/SrcExpl'
 	Plug 'Yggdroot/indentLine'
 	Plug 'vim-scripts/indentpython.vim'
 	Plug 'tmhedberg/SimpylFold'
@@ -18,13 +19,16 @@ call plug#begin('~/.vim/plugged')
 	Plug 'Chiel92/vim-autoformat'
 
 	" directory search
-	Plug 'scrooloose/nerdtree'
+	Plug 'preservim/nerdtree'
+	Plug 'preservim/nerdcommenter'
 
 call plug#end()
 
 " Basic Vim config
+
+	set exrc
+	set secure
 	set number
-	"set relativenumber
 	set hidden
 	set mouse=a
 	set noshowmode
@@ -49,7 +53,7 @@ call plug#end()
 
 " UI configuration
 
-	syntax on
+	"syntax on
 	syntax enable
 	" GruvBox
 	"let base16colorspace=256
@@ -57,14 +61,16 @@ call plug#end()
 	"set background=dark
 
 	" Solarized
-	colorscheme solarized
 	set background=dark
-	let g:solarized_termtrans = 0
+	colorscheme solarized
+	set colorcolumn=80
+	highlight ColorColumn ctermbg=darkgrey
+ 	"let g:solarized_termtrans = 0
 
 	" True Color Support if it's avaiable in terminal
-	if has("termguicolors")
-	set termguicolors
-	endif
+	"if has("termguicolors")
+	"set termguicolors
+	"endif
 	"if has("gui_running")
 	"  set guicursor=n-v-c-sm:block,i-ci-ve:block,r-cr-o:blocks
 	"endif
@@ -82,12 +88,21 @@ call plug#end()
     set foldlevel=99
     nnoremap <space> za
     let g:SimpylFold_docstring_preview=1
+
+    "open includes
+    let &path.="src/include,/usr/include/AL,/home/axebea/Documents/src/stringent/modules/positioning_hdmap/include,"
     
 " Indentation
 
+    "General indentation
+    set tabstop=4
+    set softtabstop=4
+    set shiftwidth=4
+    set textwidth=79
     " PEP8 python indentation
     autocmd FileType python setlocal ts=4 sts=4 sw=4 tw=79 expandtab autoindent fileformat=unix
-
+    " C/C++ indentation
+    autocmd FileType c++ setlocal ts=4 sts=4 sw=4 tw=79 expandtab autoindent fileformat=unix
     " Web-based indentation
     au BufNewFile,BufRead *.js, *.html, *.css
         \ set tabstop=2
