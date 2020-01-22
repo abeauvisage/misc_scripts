@@ -24,6 +24,9 @@ call plug#begin('~/.vim/plugged')
     Plug 'preservim/nerdtree'
     Plug 'preservim/nerdcommenter'
 
+    " git plugin
+    Plug 'tpope/vim-fugitive'
+
 call plug#end()
 
 " Basic Vim config
@@ -115,6 +118,9 @@ call plug#end()
     " NERDTree
     nmap <C-n> :NERDTreeToggle<CR>
     "autocmd vimenter * NERDTree
+
+    " vim-fugitive (git)
+    autocmd FileType gitcommit setlocal spell
 
     " help YCM
     let g:ycm_autoclose_preview_window_after_completion=1
