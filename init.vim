@@ -53,13 +53,18 @@ call plug#end()
     highlight BadWhitespace ctermbg=red guibg=dtarkred
     au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
     " Shortcuts
-    nnoremap <C-S> :w<CR>
-    nnoremap <C-Q> :q<CR>
-    nnoremap <F8> :YcmCompleter GoTo<CR>
+        " save and quit
+        nnoremap <C-S> :w<CR>
+        nnoremap <C-Q> :q<CR>
+        " GoTo definition
+        nnoremap <F8> :YcmCompleter GoTo<CR>
+        " switch header/cpp
+        nnoremap <F9> :A
+        nnoremap <C-D> yyp
 
 " UI configuration
 
-	"syntax on
+	syntax on
 	syntax enable
 	" GruvBox
 	"let base16colorspace=256
@@ -124,27 +129,8 @@ call plug#end()
     " help YCM
     let g:ycm_autoclose_preview_window_after_completion=1
     let g:ycm_max_num_candidates=10
-    " Ale
-    let g:ale_lint_on_enter = 0
-    let g:ale_lint_on_text_changed = 'never'
-    let g:ale_echo_msg_error_str = 'E'
-    let g:ale_echo_msg_warning_str = 'W'
-    let g:ale_echo_msg_format = '[%linter%] %s [%severity%]'
-    let g:ale_linters = {'python': ['flake8']}
+    let g:ycm_min_num_of_chars_for_completion = 3
 
     " Airline
     let g:airline_left_sep  = ''
     let g:airline_right_sep = ''
-    let g:airline#extensions#ale#enabled = 1
-    let airline#extensions#ale#error_symbol = 'E:'
-    let airline#extensions#ale#warning_symbol = 'W:'
-
-"virtualenv support for python
-py << EOF
-import os
-import sys
-if 'VIRTUAL_ENV' in os.environ:
-  project_base_dir = os.environ['VIRTUAL_ENV']
-  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-  execfile(activate_this, dict(__file__=activate_this))
-EOF
