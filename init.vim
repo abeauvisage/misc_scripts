@@ -8,7 +8,6 @@ call plug#begin('~/.vim/plugged')
 
     " autocompletion and indentation
     Plug 'ycm-core/YouCompleteMe'
-    Plug 'wesleyche/SrcExpl'
     Plug 'Yggdroot/indentLine'
     Plug 'vim-scripts/indentpython.vim'
     Plug 'tmhedberg/SimpylFold'
