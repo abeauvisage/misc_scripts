@@ -60,6 +60,8 @@ call plug#end()
         nnoremap <C-Q> :q<CR>
         " GoTo definition
         nnoremap <F8> :YcmCompleter GoTo<CR>
+        " Go back to previous file
+        nnoremap <F7> :e#<CR>
         " switch header/cpp
         nnoremap <F9> :A
         nnoremap <C-D> yyp
@@ -123,7 +125,7 @@ call plug#end()
 
     " NERDTree
     nmap <C-n> :NERDTreeToggle<CR>
-    "autocmd vimenter * NERDTree
+    autocmd vimenter * NERDTree
 
     " vim-fugitive (git)
     autocmd FileType gitcommit setlocal spell
