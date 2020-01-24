@@ -8,6 +8,7 @@ call plug#begin('~/.vim/plugged')
 
     " autocompletion and indentation
     Plug 'ycm-core/YouCompleteMe'
+    Plug 'rdnetto/YCM-Generator'
     Plug 'Yggdroot/indentLine'
     Plug 'vim-scripts/indentpython.vim'
     Plug 'tmhedberg/SimpylFold'
@@ -22,6 +23,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'vim-scripts/a.vim'
     Plug 'preservim/nerdtree'
     Plug 'preservim/nerdcommenter'
+    Plug 'majutsushi/tagbar'
 
     " git plugin
     Plug 'tpope/vim-fugitive'
