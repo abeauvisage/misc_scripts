@@ -24,9 +24,11 @@ call plug#begin('~/.vim/plugged')
     Plug 'preservim/nerdtree'
     Plug 'preservim/nerdcommenter'
     Plug 'majutsushi/tagbar'
+    Plug '~/.fzf'
+    Plug 'junegunn/fzf.vim'
 
     " git plugin
-    Plug 'tpope/vim-fugitive'
+    " Plug 'tpope/vim-fugitive'
 
 call plug#end()
 
@@ -55,16 +57,34 @@ call plug#end()
     highlight BadWhitespace ctermbg=red guibg=dtarkred
     au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
     " Shortcuts
-        " save and quit
-        nnoremap <C-S> :w<CR>
-        nnoremap <C-Q> :q<CR>
-        " GoTo definition
-        nnoremap <F8> :YcmCompleter GoTo<CR>
-        " Go back to previous file
-        nnoremap <F7> :e#<CR>
-        " switch header/cpp
-        nnoremap <F9> :A
-        nnoremap <C-D> yyp
+        " Normal mode
+            " Save and quit
+            nnoremap <C-S> :w<CR>
+            nnoremap <C-Q> :q<CR>
+            " Toogle
+            nmap <C-n> :NERDTreeToggle<CR>
+            nmap <C-m> :TagbarToggle<CR>
+            " Show file name
+            nnoremap <F5> :echo @%<CR>
+            " GoTo definition
+            nnoremap <F8> :YcmCompleter GoTo<CR>
+            " Go back to previous file
+            nnoremap <F7> :e#<CR>
+            " Switch header/cpp
+            nnoremap <F9> :A<CR>
+            " Duplicate line
+            nnoremap <C-D> yyp
+            " Open file in a new window
+            nnoremap <C-O> :vert new 
+            " Open fzf
+            nnoremap <C-F> :FZF<CR>
+            nnoremap <C-Z> u
+            " comment line
+            nmap <C-t> <Plug>NERDCommenterToggle
+
+        " Visual block
+            vmap <C-t> <Plug>NERDCommenterToggle
+            vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 " UI configuration
 
@@ -124,11 +144,10 @@ call plug#end()
 " Plugins
 
     " NERDTree
-    nmap <C-n> :NERDTreeToggle<CR>
     autocmd vimenter * NERDTree
 
     " vim-fugitive (git)
-    autocmd FileType gitcommit setlocal spell
+    "autocmd FileType gitcommit setlocal spell
 
     " help YCM
     let g:ycm_autoclose_preview_window_after_completion=1
@@ -138,3 +157,8 @@ call plug#end()
     " Airline
     let g:airline_left_sep  = ''
     let g:airline_right_sep = ''
+
+    " NERDCommenter
+    let g:NERDSpaceDelims = 1
+    let g:NERDCompactSexyComs = 1
+    let g:NERDDefaultAlign = 'left'
