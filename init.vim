@@ -57,6 +57,9 @@ call plug#end()
     highlight BadWhitespace ctermbg=red guibg=dtarkred
     au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
     " Shortcuts
+        " General
+            noremap <C-y> "+y
+            noremap <C-p> "+p
         " Normal mode
             " Save and quit
             nnoremap <C-S> :w<CR>
@@ -80,10 +83,10 @@ call plug#end()
             nnoremap <C-F> :FZF<CR>
             nnoremap <C-Z> u
             " comment line
-            nmap <C-t> <Plug>NERDCommenterToggle
+            nmap <C-\> <Plug>NERDCommenterToggle
 
         " Visual block
-            vmap <C-t> <Plug>NERDCommenterToggle
+            vmap <C-\> <Plug>NERDCommenterToggle
             vnoremap // y/\V<C-R>=escape(@",'/\')<CR><CR>
 
 " UI configuration
@@ -144,7 +147,7 @@ call plug#end()
 " Plugins
 
     " NERDTree
-    autocmd vimenter * NERDTree
+    autocmd vimenter * NERDTree %
 
     " vim-fugitive (git)
     "autocmd FileType gitcommit setlocal spell
