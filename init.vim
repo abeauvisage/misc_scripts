@@ -1,14 +1,13 @@
 " Plugins List
 call plug#begin('~/.vim/plugged')
 	" UI related
-    Plug 'chriskempson/base16-vim'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'altercation/vim-colors-solarized'
 
     " autocompletion and indentation
     Plug 'ycm-core/YouCompleteMe'
-    Plug 'rdnetto/YCM-Generator'
+    Plug 'rdnetto/YCM-Generator', {'branch':'stable'}
     Plug 'Yggdroot/indentLine'
     Plug 'vim-scripts/indentpython.vim'
     Plug 'tmhedberg/SimpylFold'
@@ -55,20 +54,24 @@ call plug#end()
     set clipboard=unnamed
     " highlight bad white spaces
     highlight BadWhitespace ctermbg=red guibg=dtarkred
-    au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+    au BufRead,BufNewFile *.py,*.pyw,*.c,*.cpp,*.h match BadWhitespace /\s\+$/
     " Shortcuts
         " General
             noremap <C-y> "+y
             noremap <C-p> "+p
         " Normal mode
+            nnoremap <BS> :noh<CR>
             " Save and quit
             nnoremap <C-S> :w<CR>
             nnoremap <C-Q> :q<CR>
             " Toogle
             nmap <C-n> :NERDTreeToggle<CR>
+            nmap <S-N> :NERDTree %<CR>
             nmap <C-m> :TagbarToggle<CR>
             " Show file name
-            nnoremap <F5> :echo @%<CR>
+            nnoremap <F4> :echo @%<CR>
+            " Refresh current file
+            nnoremap <F5> :e<CR>
             " GoTo definition
             nnoremap <F8> :YcmCompleter GoTo<CR>
             " Go back to previous file
@@ -81,7 +84,9 @@ call plug#end()
             nnoremap <C-O> :vert new 
             " Open fzf
             nnoremap <C-F> :FZF<CR>
-            nnoremap <C-Z> u
+            noremap <C-B> :Buffers<CR>
+            nnoremap <S-F> :FZF -q 'cd **'<CR>
+            nnoremap <C-Z> <Undo>
             " comment line
             nmap <C-\> <Plug>NERDCommenterToggle
 
@@ -93,25 +98,18 @@ call plug#end()
 
 	syntax on
 	syntax enable
-	" GruvBox
-	"let base16colorspace=256
-	"colorscheme base16-gruvbox-dark-hard
-	"set background=dark
 
 	" Solarized
-	set background=dark
-	colorscheme solarized
-	set colorcolumn=80
-	highlight ColorColumn ctermbg=darkgrey
- 	"let g:solarized_termtrans = 0
+    set background=dark
+    colorscheme solarized
+    set colorcolumn=80
+    highlight ColorColumn ctermbg=darkgrey
+    let g:solarized_termtrans = 0
 
 	" True Color Support if it's avaiable in terminal
-	"if has("termguicolors")
-	"set termguicolors
-	"endif
-	"if has("gui_running")
-	"  set guicursor=n-v-c-sm:block,i-ci-ve:block,r-cr-o:blocks
-	"endif
+    " if has("termguicolors")
+    " set termguicolors
+    " endif
 
 " Navigation
 
