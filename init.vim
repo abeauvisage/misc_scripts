@@ -66,7 +66,7 @@ call plug#end()
             nnoremap <C-Q> :q<CR>
             " Toogle
             nmap <C-n> :NERDTreeToggle<CR>
-            nmap <S-N> :NERDTree %<CR>
+            " nmap <S-N> :NERDTree %<CR>
             nmap <C-m> :TagbarToggle<CR>
             " Show file name
             nnoremap <F4> :echo @%<CR>
@@ -81,7 +81,7 @@ call plug#end()
             " Duplicate line
             nnoremap <C-D> yyp
             " Open file in a new window
-            nnoremap <C-O> :vert new 
+            " nnoremap <C-O> :vert new 
             " Open fzf
             nnoremap <C-F> :FZF<CR>
             noremap <C-B> :Buffers<CR>
