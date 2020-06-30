@@ -31,6 +31,10 @@ call plug#begin('~/.vim/plugged')
 
     " Console
     Plug 'skywind3000/asyncrun.vim'
+    " Plug 'sakhnik/nvim-gdb', { 'do': ':!./install.sh \| UpdateRemotePlugins' }
+    Plug 'puremourning/vimspector'
+    " Plug 'vim-vdebug/vdebug'
+    " Plug 'gotcha/vimpdb'
 
     " git plugin
     " Plug 'tpope/vim-fugitive'
@@ -58,13 +62,16 @@ call plug#end()
     set smartcase                     " turn on smartcase
     " clipboard
     set clipboard=unnamed
+
     " highlight bad white spaces
     highlight BadWhitespace ctermbg=red guibg=dtarkred
     au BufRead,BufNewFile *.py,*.pyw,*.c,*.cpp,*.h match BadWhitespace /\s\+$/
+
     " Go to definition
     function! GotoDefinition()
     let n = search("\\<".expand("<cword>")."\\>[^(]*([^)]*)\\s*\\n*\\s*{")
     endfunction
+
     " Shortcuts
         " General
             noremap <C-y> "+y
@@ -116,6 +123,7 @@ call plug#end()
 
         " Insert mode
             inoremap <C-S> <ESC>:w<CR>
+            inoremap <C-Z> <Undo>
 
 " UI configuration
 
@@ -125,7 +133,6 @@ call plug#end()
 	" Solarized
     set background=dark
     colorscheme solarized
-    set colorcolumn=81
     highlight ColorColumn ctermbg=darkgrey
     let g:solarized_termtrans = 0
 
@@ -133,6 +140,9 @@ call plug#end()
     " if has("termguicolors")
     " set termguicolors
     " endif
+
+    " Spell check
+    au BufRead,BufNewFile *.py,*.pyw,*.c,*.cpp,*.h,*.js,*.html,*.css,*.m setlocal spell spelllang=en_us
 
 " Navigation
 
@@ -156,11 +166,11 @@ call plug#end()
 " Indentation
 
     "General indentation
-    set tabstop=4 softtabstop=4 shiftwidth=4 textwidth=79 expandtab
+    set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
     " PEP8 python indentation
-    autocmd FileType python setlocal ts=4 sts=4 sw=4 tw=79 expandtab autoindent fileformat=unix
+    autocmd FileType python setlocal ts=4 sts=4 sw=4 tw=79 expandtab autoindent fileformat=unix colorcolumn=81
     " C/C++ indentation
-    autocmd FileType c++ setlocal ts=4 sts=4 sw=4 tw=79 expandtab autoindent fileformat=unix
+    autocmd FileType c++ setlocal ts=4 sts=4 sw=4 tw=79 expandtab autoindent fileformat=unix colorcolumn=81
     " Web-based indentation
     au BufNewFile,BufRead *.js, *.html, *.css
         \ set tabstop=2
@@ -182,6 +192,7 @@ call plug#end()
 
     " Deoplete
     let g:deoplete#enable_at_startup = 1
+    let g:python3_host_prog  = '/home/axebea/Documents/madame-web/tools/venv/bin/python3'
 
     " Airline
     let g:airline_left_sep  = ''
