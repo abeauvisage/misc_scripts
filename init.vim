@@ -192,7 +192,7 @@ call plug#end()
 
     " Deoplete
     let g:deoplete#enable_at_startup = 1
-    let g:python3_host_prog  = '/home/axebea/Documents/madame-web/tools/venv/bin/python3'
+    let g:python3_host_prog  = '/usr/bin/python3'
 
     " Airline
     let g:airline_left_sep  = ''
