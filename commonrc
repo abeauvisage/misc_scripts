@@ -7,6 +7,7 @@ alias clean_pclint='find . -name "pclint.txt" -exec rm "{}" \;'
 alias clean_cpplint='find . -name "cpplint.txt" -exec rm "{}" \;'
 alias clean_all='clean_rebase;clean_valgrind;clean_cpplint;clean_pclint'
 
-alias fix_commit='${CURR_DIR}/git_fixup'
-
 alias python='python3'
+
+alias fix_commit='${CURR_DIR}/git_fixup'
+alias rename_images_date='python ${CURR_DIR}/rename_images_by_date.py'
