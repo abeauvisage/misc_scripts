@@ -1,0 +1,12 @@
+CURR_DIR=$(cd $(dirname "$0") && pwd)
+echo "DIR: ${CURR_DIR}"
+
+alias clean_rebase='find . -name "*.orig" -exec rm "{}" \;'
+alias clean_valgrind='find . -name "vgcore.*" -exec rm "{}" \;'
+alias clean_pclint='find . -name "pclint.txt" -exec rm "{}" \;'
+alias clean_cpplint='find . -name "cpplint.txt" -exec rm "{}" \;'
+alias clean_all='clean_rebase;clean_valgrind;clean_cpplint;clean_pclint'
+
+alias fix_commit='${CURR_DIR}/git_fixup'
+
+alias python='python3'
