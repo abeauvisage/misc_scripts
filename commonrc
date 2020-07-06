@@ -1,5 +1,4 @@
 CURR_DIR=$(cd $(dirname "$0") && pwd)
-echo "DIR: ${CURR_DIR}"
 
 alias clean_rebase='find . -name "*.orig" -exec rm "{}" \;'
 alias clean_valgrind='find . -name "vgcore.*" -exec rm "{}" \;'
