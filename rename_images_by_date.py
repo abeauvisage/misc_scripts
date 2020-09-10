@@ -49,15 +49,15 @@ def findDuplicates(file_dict):
 my_parser = argparse.ArgumentParser(prog="rename", description='Rename file following given pattern.')
 
 # Add the arguments to parse in the CLI
-#TODO make real alternative option if necessary and check if shortcut works
+#TODO make real alternative option if necessary
 my_parser.add_argument('Dir',
                        metavar='pathTargetDirectory',
                        type=str,
                        help='Idk. Surely target folder to rename pics')
                      
-my_parser.add_argument('--dated', '-d',
+my_parser.add_argument('--undated',
                         action='store_true',
-                        help='If specified, pictures need date for renaming')
+                        help='If specified, pictures do not need date for renaming')
 my_parser.add_argument('--cam','-c',
                        metavar='cameraName',
                        type=str,
@@ -86,30 +86,14 @@ number=1
 cam_name = args.cam
 time = args.time
 time_delay = datetime.timedelta()
-useDate = args.dated
+useDate = not args.undated
 suffix = args.suffix
 prefix = args.prefix
 isVerbose = args.verbose
 
 if isVerbose:
     print("Dated value: " + str(useDate))
-#try:
-#	opts, args = getopt.getopt(sys.argv[1:],"hc:t:",["camera=","time"])
-#except getopt.GetoptError:
-#	#print('renameImgs.py -c <camera_name> -t <time_delay h:m:s> dir_name')
-#	print('./rename_images_by_date.py [-c[OPTIONAL] <camera_name> |-t[OPTIONAL] <time_delay h:m:s>] dir_name')
-#	sys.exit(2)
-#for opt,arg in opts:
-#	if opt == '-h':
-#		#print('rename -c <camera_name> -t <time_delay> dir_name')
-#		print('./rename_images_by_date.py -c[OPTIONAL] <camera_name> -t[OPTIONAL] <time_delay h:m:s> dir_name')
-#		sys.exit()
-#	elif opt in ("-c","--camera"):
-#		cam_name = arg
-#	elif opt in ("-t","--time"):
-#		time_split = arg.split(":")
-#		print("delay split: {}".format(time_split))
-#		time_delay = datetime.timedelta(hours=int(time_split[0]),minutes=int(time_split[1]),seconds=int(time_split[2]))
+
 if time is not None: 
    time_split = time.split(":") #Possible to split on String?
    print("delay split: {}".format(time_split))
