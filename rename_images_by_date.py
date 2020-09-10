@@ -2,9 +2,8 @@
 
 import os
 import argparse
-import sys, getopt
+import sys
 import string, datetime
-#import collections
 
 from PIL import Image
 
@@ -95,13 +94,13 @@ if isVerbose:
     print("Dated value: " + str(useDate))
 
 if time is not None: 
-   time_split = time.split(":") #Possible to split on String?
+   time_split = time.split(":")
    print("delay split: {}".format(time_split))
    time_delay = datetime.timedelta(hours=int(time_split[0]),minutes=int(time_split[1]),seconds=int(time_split[2]))
    print("time: " + str(time_delay))
 if cam_name is not None:
    print("camera name: " + cam_name)
-dir = args.Dir #sys.argv[-1]
+dir = args.Dir 
 print("target directory: " + dir)
 files = {}
 
@@ -125,11 +124,9 @@ if len(files) == 0:
     sys.exit()
 sorted_files  = sorted(files.items(), key=lambda kv: kv[1])
 
-#files = {}
-
 #Rename 
 for filename, date in sorted_files:
-    if useDate: #TODO better with extracted method and switch case without break
+    if useDate:
 	    _date_,_time_ = date.split(" ")
 	    date_split = _date_.split(":")
 	    time_split = _time_.split(":")
