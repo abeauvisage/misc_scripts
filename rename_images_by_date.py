@@ -104,6 +104,8 @@ suffix = args.suffix
 prefix = args.prefix
 isVerbose = args.verbose
 
+if (time_delay and not cam_name) or (not time_delay and cam_name):
+    my_parser.error("--time_delay requires --cam_name. --cam_name requires --time_delay")
 if isVerbose:
     print("Dated value: " + str(useDate))
 
@@ -116,7 +118,7 @@ if time_delay:
             time_split[1]), seconds=int(
                 time_split[2]))
     print("time: " + str(date_time_delay))
-if cam_name is not None:
+if cam_name:
     print("camera name: " + cam_name)
 dir = args.dir
 print("target directory: " + dir)
