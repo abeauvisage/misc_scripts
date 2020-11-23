@@ -35,6 +35,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'puremourning/vimspector'
     " Plug 'vim-vdebug/vdebug'
     " Plug 'gotcha/vimpdb'
+    Plug 'cpiger/NeoDebug'
 
     " git plugin
     " Plug 'tpope/vim-fugitive'
@@ -168,9 +169,9 @@ call plug#end()
     "General indentation
     set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
     " PEP8 python indentation
-    autocmd FileType python setlocal ts=4 sts=4 sw=4 tw=79 expandtab autoindent fileformat=unix colorcolumn=81
+    autocmd FileType python setlocal ts=4 sts=4 sw=4 tw=79 expandtab autoindent fileformat=unix colorcolumn=79
     " C/C++ indentation
-    autocmd FileType c++ setlocal ts=4 sts=4 sw=4 tw=79 expandtab autoindent fileformat=unix colorcolumn=81
+    autocmd FileType cpp setlocal ts=4 sts=4 sw=4 tw=79 expandtab autoindent fileformat=unix colorcolumn=79
     " Web-based indentation
     au BufNewFile,BufRead *.js, *.html, *.css
         \ set tabstop=2
@@ -181,6 +182,7 @@ call plug#end()
 
     " NERDTree
     " autocmd vimenter * NERDTree %
+    nnoremap <S-M> :NERDTreeRefreshRoot<CR>
 
     " vim-fugitive (git)
     "autocmd FileType gitcommit setlocal spell
