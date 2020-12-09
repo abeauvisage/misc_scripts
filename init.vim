@@ -25,7 +25,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'preservim/nerdtree'
     Plug 'preservim/nerdcommenter'
     Plug 'majutsushi/tagbar'
-    Plug '~/.fzf'
+    Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
     Plug 'junegunn/fzf.vim'
     Plug 'yuki-ycino/fzf-preview.vim'
 
