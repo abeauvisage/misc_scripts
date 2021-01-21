@@ -7,6 +7,7 @@ import datetime
 
 import numpy as np
 from PIL import Image
+from scipy.stats import entropy
 
 
 def get_date_taken(path):
@@ -52,6 +53,11 @@ def find_duplicates(file_dict):
 
     return (duplicates, file_dict)
 
+def image_entropy(img_file, base=None):
+    img = Image.open(img_file, mode='r')
+    counts = np.unique(img, return_counts=True)[-1]
+    return int(1e6 * entropy(counts, base=base))
+
 
 ###################
 # Argument parser #
@@ -76,6 +82,11 @@ my_parser.add_argument(
     '--no_date',
     action='store_true',
     help='If specified, pictures do not need date for renaming')
+my_parser.add_argument(
+    '--entropy',
+    action='store_true',
+    help='Compute a unique number based on entropy to append to each name.'
+         'This option replaces the suffix option.')
 my_parser.add_argument(
     '--cam',
     '-c',
@@ -111,6 +122,7 @@ cam_name = args.cam
 time_delay = args.time_delay
 date_time_delay = datetime.timedelta()
 use_date = not args.no_date
+use_entropy = args.entropy
 suffix = args.suffix
 prefix = args.prefix
 is_verbose = args.verbose
@@ -195,6 +207,9 @@ for filename, date in sorted_files:
             str(date_struct.minute).zfill(2) + "_" + \
             str(date_struct.second).zfill(2)
         files[filename] = new_name + "_" + ext
+
+    if use_entropy:
+        suffix = str(image_entropy(dir + '/' + filename))
 
     if prefix:
         files[filename] = prefix + "_" + main_name + "." + ext
