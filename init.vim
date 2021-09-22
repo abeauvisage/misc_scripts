@@ -14,8 +14,8 @@
         Plug 'tmhedberg/SimpylFold'
         Plug 'Townk/vim-autoclose'
         Plug 'neovim/nvim-lspconfig'
-        Plug 'weilbith/nvim-lsp-smag'
-        Plug 'Chiel92/vim-autoformat'
+        Plug 'weilbith/nvim-lsp-smag'   " Server Smart Tags
+        Plug 'Chiel92/vim-autoformat'   " Autoformat on save
 
     " directory search and file switching
         " Plug 'vim-scripts/a.vim'
@@ -25,7 +25,7 @@
         Plug 'majutsushi/tagbar'
         Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
         Plug 'junegunn/fzf.vim'
-        Plug 'yuki-ycino/fzf-preview.vim'
+        " Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release/rpc'}
 
     " Console
         Plug 'skywind3000/asyncrun.vim'
@@ -102,9 +102,21 @@
         " Duplicate line
         nnoremap <C-D> yyp
         " Open fzf
-        nnoremap <C-F> :FZF<CR>
+        " nmap <C-F> [fzf-p]
+        " xmap <C-F> [fzf-p]
+        " nnoremap <silent> [fzf-p]gst    :<C-u>FzfPreviewGitStatusRpc<CR>
+        " nnoremap <silent> [fzf-p]gs    :<C-u>FzfPreviewGitStashesRpc<CR>
+        " nnoremap <silent> [fzf-p]lg    :<C-u>FzfPreviewGitLogsRpc<CR>
+        " nnoremap <silent> [fzf-p]b    :<C-u>FzfPreviewGitStashesBranchesRpc<CR>
+        " nnoremap <silent> [fzf-p]<C-F> :<C-u>FzfPreviewProjectFilesRpc<CR>
+        " nnoremap <silent> [fzf-p]<C-F> :GFiles<CR>
+        " nnoremap <silent> [fzf-p]f :Files<CR>
+
+        nnoremap <C-F> :Files<CR>
+        nnoremap <C-G> :GFiles<CR>
+        " noremap <C-B> :FzfPreviewBuffersRpc<CR>
         noremap <C-B> :Buffers<CR>
-        nnoremap <S-F> :FZF -q 'cd **'<CR>
+
         " comment line
         nmap <C-\> <Plug>NERDCommenterToggle
 
@@ -130,21 +142,20 @@
 
         " True Color Support if it's avaiable in terminal
         " if has("termguicolors")
-        " set termguicolors
+        "     set termguicolors
         " endif
 
 
 " Spell check
 
-    au BufRead,BufNewFile *.py,*.pyw,*.c,*.cpp,*.h,*.js,*.html,*.css,*.m setlocal spell spelllang=en_us
-    highlight ExtraWhitespace ctermbg=red guibg=red
+    au BufRead,BufNewFile *.py,*.pyw,*.c,*.cpp,*.h,*.js,*.html,*.css,*.m,*.md setlocal spell spelllang=en_us
+    highlight ExtraWhitespace ctermbg=red guibg=dtarkred
     match ExtraWhitespace /\s\+$/
     au BufWinEnter * match ExtraWhitespace /\s\+$/
     au InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
     au InsertLeave * match ExtraWhitespace /\s\+$/
     au BufWinLeave * call clearmatches()
     highlight BadWhitespace ctermbg=red guibg=dtarkred
-    au BufRead,BufNewFile *.py,*.pyw,*.c,*.cpp,*.h match BadWhitespace /\s\+$/
 
 
 " Navigation
@@ -173,6 +184,8 @@
     set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
     " PEP8 python indentation
     autocmd FileType python setlocal ts=4 sts=4 sw=4 tw=79 expandtab autoindent fileformat=unix colorcolumn=79
+    " Markdown same as python
+    autocmd FileType markdown setlocal ts=4 sts=4 sw=4 tw=79 expandtab autoindent fileformat=unix colorcolumn=79
     " C/C++ indentation
     autocmd FileType cpp setlocal ts=4 sts=4 sw=4 tw=100 expandtab autoindent fileformat=unix colorcolumn=100
     " Web-based indentation
@@ -210,48 +223,48 @@
         let g:NERDCompactSexyComs = 1
         let g:NERDDefaultAlign = 'left'
 
-    " FZF
-        " Add fzf quit mapping
-        let g:fzf_preview_quit_map = 1
-        " Use floating window (for neovim)
-        let g:fzf_preview_use_floating_window = 1
-        " Commands used for fzf preview.
-        " The file name selected by fzf becomes {}
-        let g:fzf_preview_command = 'head -100 {-1}'                       " Not installed ccat and bat
-        " let g:fzf_preview_command = 'bat --color=always --style=grid {-1}' " Installed bat
-        " let g:fzf_preview_command = 'ccat --color=always {-1}'             " Installed ccat
-        " Commands used for binary file
-        let g:fzf_binary_preview_command = 'echo "{} is a binary file"'
-        " Commands used to get the file list from project
-        let g:fzf_preview_filelist_command = 'git ls-files --exclude-standard'               " Not Installed ripgrep
-        " Commands used to get the file list from git reposiroty
-        let g:fzf_preview_git_files_command = 'git ls-files --exclude-standard'
-        " Commands used to get the file list from current directory
-        let g:fzf_preview_directory_files_command = 'rg --files --hidden --follow --no-messages -g \!"* *"'
-        " Commands used to get the git status file list
-        let g:fzf_preview_git_status_command = "git status --short --untracked-files=all | awk '{if (substr($0,2,1) !~ / /) print $2}'"
-        " Commands used for project grep
-        let g:fzf_preview_grep_cmd = 'rg --line-number --no-heading'
-        " Commands used for preview of the grep result
-        let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview_fzf_grep'
-        " Keyboard shortcuts while fzf preview is active
-        let g:fzf_preview_preview_key_bindings = 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
-        " Specify the color of fzf
-        let g:fzf_preview_fzf_color_option = ''
-        " Keyboard shortcut for opening files with split
-        let g:fzf_preview_split_key_map = 'ctrl-x'
-        " Keyboard shortcut for opening files with vsplit
-        let g:fzf_preview_vsplit_key_map = 'ctrl-v'
-        " Keyboard shortcut for opening files with tabedit
-        let g:fzf_preview_tabedit_key_map = 'ctrl-t'
-        " Keyboard shortcut for building quickfix
-        let g:fzf_preview_build_quickfix_key_map = 'ctrl-q'
-        " Command to be executed after file list creation
-        let g:fzf_preview_filelist_postprocess_command = ''
-        " Use vim-devicons
-        let g:fzf_preview_use_dev_icons = 0
-        " devicons character width
-        let g:fzf_preview_dev_icon_prefix_length = 2
+    " " FZF
+    "     " Add fzf quit mapping
+    "     let g:fzf_preview_quit_map = 1
+    "     " Use floating window (for neovim)
+    "     let g:fzf_preview_use_floating_window = 1
+    "     " Commands used for fzf preview.
+    "     " The file name selected by fzf becomes {}
+    "     let g:fzf_preview_command = 'head -100 {-1}'                       " Not installed ccat and bat
+    "     " let g:fzf_preview_command = 'bat --color=always --style=grid {-1}' " Installed bat
+    "     " let g:fzf_preview_command = 'ccat --color=always {-1}'             " Installed ccat
+    "     " Commands used for binary file
+    "     let g:fzf_binary_preview_command = 'echo "{} is a binary file"'
+    "     " Commands used to get the file list from project
+    "     let g:fzf_preview_filelist_command = 'git ls-files --exclude-standard'               " Not Installed ripgrep
+    "     " Commands used to get the file list from git reposiroty
+    "     let g:fzf_preview_git_files_command = 'git ls-files --exclude-standard'
+    "     " Commands used to get the file list from current directory
+    "     let g:fzf_preview_directory_files_command = 'rg --files --hidden --follow --no-messages -g \!"* *"'
+    "     " Commands used to get the git status file list
+    "     let g:fzf_preview_git_status_command = "git status --short --untracked-files=all | awk '{if (substr($0,2,1) !~ / /) print $2}'"
+    "     " Commands used for project grep
+    "     let g:fzf_preview_grep_cmd = 'rg --line-number --no-heading'
+    "     " Commands used for preview of the grep result
+    "     let g:fzf_preview_grep_preview_cmd = expand('<sfile>:h:h') . '/bin/preview_fzf_grep'
+    "     " Keyboard shortcuts while fzf preview is active
+    "     let g:fzf_preview_preview_key_bindings = 'ctrl-d:preview-page-down,ctrl-u:preview-page-up,?:toggle-preview'
+    "     " Specify the color of fzf
+    "     let g:fzf_preview_fzf_color_option = ''
+    "     " Keyboard shortcut for opening files with split
+    "     let g:fzf_preview_split_key_map = 'ctrl-x'
+    "     " Keyboard shortcut for opening files with vsplit
+    "     let g:fzf_preview_vsplit_key_map = 'ctrl-v'
+    "     " Keyboard shortcut for opening files with tabedit
+    "     let g:fzf_preview_tabedit_key_map = 'ctrl-t'
+    "     " Keyboard shortcut for building quickfix
+    "     let g:fzf_preview_build_quickfix_key_map = 'ctrl-q'
+    "     " Command to be executed after file list creation
+    "     let g:fzf_preview_filelist_postprocess_command = ''
+    "     " Use vim-devicons
+    "     let g:fzf_preview_use_dev_icons = 0
+    "     " devicons character width
+    "     let g:fzf_preview_dev_icon_prefix_length = 2
 
 
     " LSP config
