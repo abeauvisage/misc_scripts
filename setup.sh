@@ -40,3 +40,14 @@ if [ ! -f "$INITVIM" ]; then
 fi
 
 source $HOME/.zshrc
+
+# Bash insulter
+if [ ! -d "$HOME/.bash-insulter" ]; then
+    git clone https://github.com/hkbakke/bash-insulter.git $HOME/.bash-insulter
+fi
+sudo cp $HOME/.bash-insulter/src/bash.command-not-found /etc/
+
+## Global gitignore ##
+
+echo "/build/\n/.clangd" > ~/.gitignore
+git config --global core.excludesFile '~/.gitignore'
