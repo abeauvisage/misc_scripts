@@ -81,6 +81,7 @@
 
         " Save and quit
         nnoremap <C-S> :w<CR>
+        nnoremap <S-S> :noautocmd w<CR>
         nnoremap <C-Q> :q<CR>
         " Toogle NERDTree
         nmap <C-n> :NERDTreeToggle<CR>
@@ -182,9 +183,9 @@
 
     "General indentation
     set tabstop=4 softtabstop=4 shiftwidth=4 expandtab
-    " PEP8 python indentation
-    autocmd FileType python setlocal ts=4 sts=4 sw=4 tw=79 expandtab autoindent fileformat=unix colorcolumn=79
-    " Markdown same as python
+    " Black python indentation
+    autocmd FileType python setlocal ts=4 sts=4 sw=4 tw=100 expandtab autoindent fileformat=unix colorcolumn=100
+    " Markdown
     autocmd FileType markdown setlocal ts=4 sts=4 sw=4 tw=79 expandtab autoindent fileformat=unix colorcolumn=79
     " C/C++ indentation
     autocmd FileType cpp setlocal ts=4 sts=4 sw=4 tw=100 expandtab autoindent fileformat=unix colorcolumn=100
@@ -202,7 +203,7 @@
         noremap <F6> :AutoformatLine<CR>
         au BufWrite *.py,*.cpp,*.bazel,*.js :Autoformat
         let g:formatdef_autopep8 = "'autopep8 - -a -a'"
-        let g:formatters_python = ['autopep8']
+        let g:formatters_python = ['black']
         let g:formatters_cpp = ['clangformat']
 
 
