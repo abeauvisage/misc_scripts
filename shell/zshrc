@@ -92,6 +92,8 @@ fi
 ZSHRC=$(readlink -f $HOME/.zshrc)
 MISC_DIR=$(realpath $(dirname $ZSHRC)/..)
 
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+
 alias clean_rebase='find . -name "*.orig" -exec rm "{}" \;'
 alias clean_valgrind='find . -name "vgcore.*" -exec rm "{}" \;'
 alias clean_pclint='find . -name "pclint.txt" -exec rm "{}" \;'
@@ -102,3 +104,19 @@ alias fix_commit='${MISC_DIR}/git_fixup'
 alias rename_images_date='python ${MISC_DIR}/rename_images_by_date.py'
 
 source $MISC_DIR/shell/.include
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/s0001153/miniconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/s0001153/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/s0001153/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/s0001153/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+

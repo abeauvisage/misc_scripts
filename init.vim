@@ -26,6 +26,7 @@
         Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
         Plug 'junegunn/fzf.vim'
         " Plug 'yuki-ycino/fzf-preview.vim', { 'branch': 'release/rpc'}
+        Plug 'f-person/git-blame.nvim'
 
     " Console
         Plug 'skywind3000/asyncrun.vim'
@@ -34,6 +35,8 @@
         " Plug 'vim-vdebug/vdebug'
         " Plug 'gotcha/vimpdb'
         Plug 'cpiger/NeoDebug'
+
+    Plug 'ahmedkhalf/jupyter-nvim', { 'do': ':UpdateRemotePlugins' }
 
     call plug#end()
 
@@ -224,6 +227,9 @@
         let g:NERDCompactSexyComs = 1
         let g:NERDDefaultAlign = 'left'
 
+    " Git Blame
+        let g:gitblame_enabled = 0
+
     " " FZF
     "     " Add fzf quit mapping
     "     let g:fzf_preview_quit_map = 1
@@ -270,4 +276,5 @@
 
     " LSP config
         lua require'lspconfig'.clangd.setup{}
-        lua require'lspconfig'.pylsp.setup{}
+        lua require'lspconfig'.pylsp.setup{configurationSources = {"lsp-black"}}
+        lua require'jupyter-nvim'.setup{}
