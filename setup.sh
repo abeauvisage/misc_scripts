@@ -25,6 +25,26 @@ echo "source $SCRIPTDIR/$LOCALRC" > "$SCRIPTDIR/shell/.include"
 rm ~/.zshrc
 ln -s "$SCRIPTDIR/shell/zshrc" ~/.zshrc
 
+## Nordic Gnome theme ##
+
+if [ ! -d "$HOME/.themes" ]; then
+    mkdir $HOME/.themes
+else
+    if [ -d "$HOME/.themes/Nordic" ]; then
+        rm -rf $HOME/.themes/Nordic
+    fi
+fi
+
+git clone https://github.com/EliverLara/Nordic.git $HOME/.themes/Nordic
+
+## Terminator ##
+if [ -d "$HOME/.config/terminator" ]; then
+    rm -r ~/.config/terminator
+fi
+
+mkdir ~/.config/terminator
+ln -sf $SCRIPTDIR/config/terminator_config $HOME/.config/terminator/config
+
 ## vim config ##
 
 if [ ! -f "$HOME/.local/share/nvim/site/autoload/plug.vim" ]; then
@@ -55,3 +75,5 @@ sudo cp $HOME/.bash-insulter/src/bash.command-not-found /etc/
 
 echo "/build/\n/.clangd" > ~/.gitignore
 git config --global core.excludesFile '~/.gitignore'
+
+pip install -r $SCRIPTDIR/requirements.txt

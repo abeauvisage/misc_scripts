@@ -67,6 +67,7 @@
 " Shortcuts
 
     " General
+        set clipboard+=unnamedplus
         noremap <C-y> "+y
         noremap <C-p> "+p
         map <C-RightMouse> <S-C>
@@ -276,5 +277,7 @@
 
     " LSP config
         lua require'lspconfig'.clangd.setup{}
-        lua require'lspconfig'.pylsp.setup{configurationSources = {"lsp-black"}}
+        " lua require'lspconfig'.pylsp.setup{{black = {enabled = True, line_length = 100}, autopep8 = {enabled = False}}}
+        lua require'lspconfig'.pylsp.setup{}
         lua require'jupyter-nvim'.setup{}
+"configurationSources = {"lsp-black"}
