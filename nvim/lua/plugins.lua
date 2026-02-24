@@ -5,16 +5,16 @@ vim.call('plug#begin')
 -- UI related
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
---Plug 'shaunsingh/solarized.nvim' -- bad plugin
 Plug 'ishan9299/nvim-solarized-lua'
 
 -- directory search 
-Plug 'preservim/nerdtree'
--- Plug 'preservim/nerdcommenter' -- switch to Comment
+Plug 'nvim-tree/nvim-web-devicons'
+Plug 'nvim-neo-tree/neo-tree.nvim'
 Plug 'numToStr/Comment.nvim'
 Plug 'majutsushi/tagbar'
-Plug('junegunn/fzf', { ['do'] = vim.fn['fzf#install']})
-Plug 'junegunn/fzf.vim'
+Plug 'nvim-telescope/telescope.nvim'
+Plug('nvim-telescope/telescope-fzf-native.nvim', { ['do'] = 'make' })
+
 -- lsp
 Plug 'neovim/nvim-lspconfig'
 
@@ -28,8 +28,13 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 
+-- AI assistance
 Plug 'nvim-lua/plenary.nvim'
+Plug 'MunifTanjim/nui.nvim'
+Plug 'MeanderingProgrammer/render-markdown.nvim'
+Plug 'zbirenbaum/copilot.lua'
 Plug 'CopilotC-Nvim/CopilotChat.nvim'
+Plug('yetone/avante.nvim', { ['branch'] = 'main', ['do'] = 'make' })
 
 -- Debugging
 Plug 'mfussenegger/nvim-dap'
@@ -44,16 +49,16 @@ vim.call('plug#end')
 
 -- Solarized
 vim.o.background = "dark"
---vim.g.solarized_termtrans = 0
 vim.g.solarized_termcolours = 16
 vim.g.solarized_contrast = true
 vim.cmd('colorscheme solarized')
---require('solarized').set() -- only used for shaunsingh lua plugin
 
 vim.cmd('highlight ColorColumn ctermbg=darkgrey')
 vim.cmd('highlight ExtraWhitespace ctermbg=red guibg=darkred') 
 
 require("Comment").setup()
+require('neo-tree').setup({})
+require('telescope').load_extension('fzf')
 
 -- LSP and Autocompletion --
 
@@ -154,6 +159,8 @@ vim.lsp.config("clangd", {on_attach = on_attach})
 --vim.lsp.config("pyright", {on_attach = on_attach, settings={analysis = {autoSearchPaths = true, diagnosticMode = "openFilesOnly", useLibraryCodeForTypes = true, extraPaths = {"~/.local/lib/python3.14"}}}})
 vim.lsp.enable("clangd")
 vim.lsp.enable("pyright")
+vim.lsp.enable("jsonls")
+vim.lsp.enable("dockerls")
 --vim.lsp.enable("bzl")
 vim.lsp.enable('bazelrc_lsp')
 
@@ -244,3 +251,6 @@ vim.keymap.set('n', '<Leader>dc', dbg_continue)
 vim.keymap.set('n', '<Leader>di', dbg_step_into)
 vim.keymap.set('n', '<Leader>do', dbg_step_over)
 vim.keymap.set('n', '<Leader>dq', dbg_quit)
+
+require("copilot").setup()
+require('avante').setup({})

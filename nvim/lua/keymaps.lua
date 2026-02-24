@@ -17,17 +17,20 @@ vim.keymap.set('n', '<BS>', ':noh<CR>')
 
 -- Buffers
 vim.keymap.set('n', '<C-E>', ':vsplit<CR>')
-vim.keymap.set('n', '<C-B>', ':Buffers<CR>')
-vim.keymap.set('n', '<C-F>',  ':Files<CR>')
-vim.keymap.set('n', '<C-G>', ':GFiles<CR>')
 
--- NERDTree
-vim.keymap.set('n', '<C-N>', ':NERDTreeToggle<CR>')
-vim.keymap.set('n', '<C-M>', ':TagbarToggle<CR>')
+-- Tree structure
+vim.keymap.set('n', '<C-N>', ':Neotree filesystem toggle<CR>')
+vim.keymap.set('n', '<leader>gst', ':Neotree git_status toggle<CR>')
 
--- NERD Commenter
--- vim.keymap.set('n', '<C-\\', '<Plug>NERDCommenterToggle')
--- vim.keymap.set('v', '<C-\\', '<Plug>NERDCommenterToggle')
 
 -- Comment
 vim.keymap.set('n', '<C-\\>', 'gcc')
+
+-- Telescope
+local builtin = require('telescope.builtin')
+vim.keymap.set('n', '<C-F>', builtin.find_files, {})
+vim.keymap.set('n', '<C-G>', builtin.git_files, {})
+vim.keymap.set('n', '<C-B>', builtin.buffers, {})
+vim.keymap.set('n', '<C-R>', builtin.command_history, {})
+vim.keymap.set('n', '<C-H>', builtin.git_commits, {})
+vim.keymap.set('n', '<leader>grep', builtin.live_grep, {})
