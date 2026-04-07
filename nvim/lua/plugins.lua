@@ -15,8 +15,12 @@ Plug 'majutsushi/tagbar'
 Plug 'nvim-telescope/telescope.nvim'
 Plug('nvim-telescope/telescope-fzf-native.nvim', { ['do'] = 'make' })
 
+-- git
+Plug 'tpope/vim-fugitive'
+
 -- lsp
 Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-treesitter/nvim-treesitter'
 
 -- Autocompletion
 Plug 'hrsh7th/cmp-nvim-lsp'
@@ -32,6 +36,7 @@ Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'MunifTanjim/nui.nvim'
 Plug 'MeanderingProgrammer/render-markdown.nvim'
+Plug 'stevearc/dressing.nvim'
 Plug 'zbirenbaum/copilot.lua'
 Plug 'CopilotC-Nvim/CopilotChat.nvim'
 Plug('yetone/avante.nvim', { ['branch'] = 'main', ['do'] = 'make' })
@@ -142,6 +147,27 @@ local on_attach = function(client, bufnr)
     vim.keymap.set('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
     vim.keymap.set('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
     vim.keymap.set('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+
+    if(client:supports_method('textDocument/switchSourceHeader')) then
+        vim.keymap.set('n', '<leader>switch',
+            function()
+                client:request('textDocument/switchSourceHeader', vim.lsp.util.make_text_document_params(),
+                    function(err, result)
+                        if err then
+                            vim.notify("Error when switching source/header: " .. err.message, vim.log.levels.ERROR)
+                            return
+                        end
+                        if not result then
+                            vim.notify("No alternate file found", vim.log.levels.INFO)
+                            return
+                        end
+                        vim.cmd.edit(vim.uri_to_fname(result))
+                    end
+                )
+            end,
+        opts)
+    end
+
     if not client:supports_method('textDocument/willSaveWaitUntil')
         and client:supports_method('textDocument/formatting') then
         vim.api.nvim_create_autocmd('BufWritePre', {
@@ -156,6 +182,8 @@ end
 
 vim.lsp.set_log_level("off")
 vim.lsp.config("clangd", {on_attach = on_attach})
+vim.lsp.config("pyright", {on_attach = on_attach})
+vim.lsp.config("jsonls", {on_attach = on_attach})
 --vim.lsp.config("pyright", {on_attach = on_attach, settings={analysis = {autoSearchPaths = true, diagnosticMode = "openFilesOnly", useLibraryCodeForTypes = true, extraPaths = {"~/.local/lib/python3.14"}}}})
 vim.lsp.enable("clangd")
 vim.lsp.enable("pyright")
@@ -191,9 +219,6 @@ dap.listeners.before.event_exited.dapui_config = function()
     ui.close()
 end
 
-local dap = require('dap')
-local dap_python = require('dap-python')
-
 -- Path to your Python interpreter (adjust as needed)
 dap_python.setup('~/.pyenv/shims/python3')
 
@@ -228,29 +253,87 @@ dap.configurations = {
     },
 }
 
-dbg_toggle_bp = function()
-    require("dap").toggle_breakpoint()
-end
-dbg_continue = function()
-    require("dap").continue()
-end
-dbg_step_into = function()
-    require("dap").step_into()
-end
-dbg_step_over = function()
-    require("dap").step_over()
-end
-dbg_quit = function()
-    require("dap").terminate()
-    require("dapui").close()
+vim.keymap.set('n', '<Leader>dt', dap.toggle_breakpoint)
+vim.keymap.set('n', '<Leader>dc', dap.continue)
+vim.keymap.set('n', '<Leader>di', dap.step_into)
+vim.keymap.set('n', '<Leader>do', dap.step_over)
+vim.keymap.set('n', '<Leader>dq', function()
+    dap.terminate()
+    ui.close()
     require("nvim-dap-virtual-text").toggle()
-end
-
-vim.keymap.set('n', '<Leader>dt', dbg_toggle_bp)
-vim.keymap.set('n', '<Leader>dc', dbg_continue)
-vim.keymap.set('n', '<Leader>di', dbg_step_into)
-vim.keymap.set('n', '<Leader>do', dbg_step_over)
-vim.keymap.set('n', '<Leader>dq', dbg_quit)
+end)
 
 require("copilot").setup()
-require('avante').setup({})
+require('render-markdown').setup()
+require('avante_lib').load()
+require('avante').setup({
+  ---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
+  provider = "copilot", -- Recommend using Claude
+  auto_suggestions_provider = "copilot", -- Since auto-suggestions are a high-frequency operation and therefore expensive, it is recommended to specify an inexpensive provider or even a free provider: copilot
+  behaviour = {
+    auto_suggestions = false, -- Experimental stage
+    auto_set_highlight_group = true,
+    auto_set_keymaps = true,
+    auto_apply_diff_after_generation = false,
+    support_paste_from_clipboard = false,
+  },
+  providers = {
+    copilot = {
+        model = "gtp-4-0613"
+    },
+  },
+  mappings = {
+    --- @class AvanteConflictMappings
+    diff = {
+      ours = "co",
+      theirs = "ct",
+      all_theirs = "ca",
+      both = "cb",
+      cursor = "cc",
+      next = "]x",
+      prev = "[x",
+    },
+    suggestion = {
+      accept = "<M-l>",
+      next = "<M-]>",
+      prev = "<M-[>",
+      dismiss = "<C-]>",
+    },
+    jump = {
+      next = "]]",
+      prev = "[[",
+    },
+    submit = {
+      normal = "<CR>",
+      insert = "<C-s>",
+    },
+    sidebar = {
+      switch_windows = "<Tab>",
+      reverse_switch_windows = "<S-Tab>",
+    },
+  },
+  hints = { enabled = true },
+  windows = {
+    ---@type "right" | "left" | "top" | "bottom"
+    position = "right", -- the position of the sidebar
+    wrap = true, -- similar to vim.o.wrap
+    width = 30, -- default % based on available width
+    sidebar_header = {
+      align = "center", -- left, center, right for title
+      rounded = true,
+    },
+  },
+  highlights = {
+    ---@type AvanteConflictHighlights
+    diff = {
+      current = "DiffText",
+      incoming = "DiffAdd",
+    },
+  },
+  --- @class AvanteConflictUserConfig
+  diff = {
+    autojump = true,
+    ---@type string | fun(): any
+    list_opener = "copen",
+  },
+})
