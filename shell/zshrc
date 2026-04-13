@@ -99,9 +99,19 @@ alias clean_valgrind='find . -name "vgcore.*" -exec rm "{}" \;'
 alias clean_pclint='find . -name "pclint.txt" -exec rm "{}" \;'
 alias clean_cpplint='find . -name "cpplint.txt" -exec rm "{}" \;'
 alias clean_all='clean_rebase;clean_valgrind;clean_cpplint;clean_pclint'
+alias clean_docker='docker system prune -a --volumes'
+alias clean_singularity='singularity cache clean'
 
 alias fix_commit='${MISC_DIR}/git_fixup'
 alias rename_images_date='python ${MISC_DIR}/rename_images_by_date.py'
+
+function scan() {
+  local dir="${1:-.}"
+  setopt localoptions nullglob
+  setopt localoptions extendedglob
+  du -sh "$dir"/*(D) "$dir"/.*(D) 2>/dev/null | sort -h
+}
+
 
 source $MISC_DIR/shell/.include
 
